@@ -3,7 +3,7 @@ const {executablePath} = require('puppeteer');
 const CapSolverPlugin = require('../../src/index')(); // ! Initialize once with ()
 
 puppeteer.use(CapSolverPlugin);
-CapSolverPlugin.setHandler('CAI-B1AEB984E64D3E617ADE2A4BF09D43F4');
+CapSolverPlugin.setHandler('CAI-XXX ...');
 
 /** METHODS  */
 
