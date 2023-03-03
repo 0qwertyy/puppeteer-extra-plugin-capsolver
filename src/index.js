@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 const { PuppeteerExtraPlugin } = require('puppeteer-extra-plugin');
-const CapSolver = require('capsolver-npm');
+const CapSolver = require('../../capsolver-npm/src/CapSolver');
 const { createCursor } = require("ghost-cursor");
 const axios = require("axios");
 
@@ -55,32 +55,30 @@ class CapSolverPlugin extends PuppeteerExtraPlugin {
 
         async function trigger(){
             await page.waitForSelector('iframe');
-            await page.waitForTimeout(2500);
+            await page.waitForTimeout(200);
             cursor = null; cursor = createCursor(page);
             await cursor.click('iframe');
-            await page.waitForTimeout(2500);
+            await page.waitForTimeout(750);
             frame = await page.frames().find(x => x.url().includes("https://newassets.hcaptcha.com"));
             if(frame === undefined){ if(self.opts.handler.verbose !== 0){ console.log('[CapSolverPlugin][Triggering...]'); } await trigger(); }
-            if(self.opts.handler.verbose !== 0){ console.log('[CapSolverPlugin][Triggered]'); }
         }
 
         async function solve(){
             await frame.waitForSelector('.crumb-bg', {timeout: 1000}).catch(e => { second = false }).then(e =>{ second = e !== undefined });
             await page.waitForTimeout(1200);
             cursor = null;
-            cursor = createCursor(page)
+            cursor = createCursor(page);
             await frame.waitForSelector('.language-selector');
             await frame.click('.language-selector');
 
             const [lang] = await frame.$x("//span[contains(text(), 'English')]");
-            if (lang) { await lang.click().catch(e => console.log('[CapSolverPlugin][Could not change translate to english! Original question assigned. ]')); }
+            if (lang) { await lang.click().catch(e => console.log('[CapSolverPlugin][Could not change translate to english! Original question assigned.]')); }
 
             const qElement = await frame.$('.prompt-text');
             const question = await frame.evaluate(el => el.textContent, qElement);
 
             let base64 = [];
             for (let i = 0; i < 9; i++) {
-                await frame.waitForSelector(`div.task-image:nth-child(${i + 1})`, { visible: true });
                 await frame.waitForSelector(`div.task-image:nth-child(${i + 1}) > div:nth-child(2) > div:nth-child(1)`, { visible: true });
                 await frame.waitForFunction((i) => document.querySelector(`div.task-image:nth-child(${i + 1}) > div:nth-child(2) > div:nth-child(1)`)?.getAttribute("style")?.indexOf("url(") !== -1, {}, i);
                 const elementHandle = await frame.$(`div.task-image:nth-child(${i + 1}) > div:nth-child(2) > div:nth-child(1)`);
@@ -103,7 +101,7 @@ class CapSolverPlugin extends PuppeteerExtraPlugin {
                 else{ coords = capsolver.apiResponse.solution.objects; }
             }
 
-            for (const [i, isImage] of coords.entries()) { if(isImage) { await frame.click(`div.task-image:nth-child(${i + 1})`); if(self.opts.handler.verbose !== 0){ console.log('[CapSolverPlugin][Clicked! '+(i+1)+']'); } } await sleep(Math.floor(Math.random() * (600 - 100) + 100))}
+            for (const [i, isImage] of coords.entries()) { if(isImage) { await frame.click(`div.task-image:nth-child(${i + 1})`); if(self.opts.handler.verbose !== 0){ console.log('[CapSolverPlugin][Clicked! '+(i+1)+']'); } } await sleep(Math.floor(Math.random() * (600 - 100) + 100)); }
             await frame.waitForTimeout(200);
             let submitbtn = await frame.$('.button-submit.button');
             await submitbtn.evaluate(b => { b.click(); })
@@ -128,7 +126,6 @@ class CapSolverPlugin extends PuppeteerExtraPlugin {
         }catch (e){ console.log(e); throw('HCaptcha inaccessible.'); }
         return page;
     }
-
 }
 
 /** Default export, CapSolverPlugin */
