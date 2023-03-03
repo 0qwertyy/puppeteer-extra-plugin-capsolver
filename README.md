@@ -1,5 +1,5 @@
 # puppeteer-extra-plugin-capsolver
-[![](https://img.shields.io/badge/1.0.1-puppeteer--extra--plugin--capsolver-darkgreen?logo=npm&logoColor=white)](https://www.npmjs.com/package/puppeteer-extra-plugin-capsolver)
+[![](https://img.shields.io/badge/1.0.2-puppeteer--extra--plugin--capsolver-darkgreen?logo=npm&logoColor=white)](https://www.npmjs.com/package/puppeteer-extra-plugin-capsolver)
 [![](https://img.shields.io/badge/documentation-docs.capsolver.com-darkgreen)](https://docs.capsolver.com/guide/getting-started.html)
 
 - **Manage to solve captcha challenges with AI (captcha service based).**
