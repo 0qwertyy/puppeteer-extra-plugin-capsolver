@@ -1,6 +1,6 @@
 {
   "name": "puppeteer-extra-plugin-capsolver",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A puppeteer-extra plugin to interact/solve captchas with API.",
   "main": "src/index.js",
   "scripts": {
