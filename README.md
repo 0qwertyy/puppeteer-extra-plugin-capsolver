@@ -1,5 +1,5 @@
 # puppeteer-extra-plugin-capsolver
-[![](https://img.shields.io/badge/1.0.2-puppeteer--extra--plugin--capsolver-darkgreen?logo=npm&logoColor=white)](https://www.npmjs.com/package/puppeteer-extra-plugin-capsolver)
+[![](https://img.shields.io/badge/1.1.1-puppeteer--extra--plugin--capsolver-darkgreen?logo=npm&logoColor=white)](https://www.npmjs.com/package/puppeteer-extra-plugin-capsolver)
 [![](https://img.shields.io/badge/documentation-docs.capsolver.com-darkgreen)](https://docs.capsolver.com/guide/getting-started.html)
 
 - **Manage to solve captcha challenges with AI (captcha service based).**
@@ -13,74 +13,74 @@
 
 ✋ Usage
 -
-1. Import and use within [`puppeteer-extra`](https://github.com/berstend/puppeteer-extra).
+Import and use within [`puppeteer-extra`](https://github.com/berstend/puppeteer-extra).
 
 ```javascript 
- const puppeteer = require('puppeteer-extra');
- const CapSolverPlugin = require('puppeteer-extra-plugin-capsolver')();
-    
- puppeteer.use(CapSolverPlugin);
+const puppeteer = require('puppeteer-extra')
+const CapSolverPlugin = require('puppeteer-extra-plugin-capsolver')({
+    apiKey: 'CAI-XXX ...',
+    verboseLevel: 1,
+    retry: true         // hcaptchaclicker: by default will retry challenges 
+})
+puppeteer.use(CapSolverPlugin)
  ```
 
-2. Initialize handler with you API key at the top of your script.
+# 🖱 HCaptcha (DOM feature)
+![](https://raw.githubusercontent.com/0qwertyy/puppeteer-extra-plugin-capsolver/master/examples/puppeteer.gif)
 
+- **`await page.hcaptchaclicker(checkboxFrame=undefined)`**  - handle a page including hcaptcha checkbox iframe *[example script (how to use).](https://github.com/0qwertyy/puppeteer-extra-plugin-capsolver/blob/master/examples/hcaptchaclicker-multiple-demo.js)*
 
-```javascript 
-CapSolverPlugin.setHandler('CAI-XXX ...', 1); // 1 or 2 enable debug level
+- Will detect for failed callenges (and retry) and for double challenges that sometimes appears.
+
+- Catch `.hcaptchaclicker()` exceptions for unsupported challenges.
+- Read more about recognize captcha images through [HCaptcha Image Classification](https://docs.capsolver.com/guide/recognition/HCaptchaClassification.html).
+
+```javascript
+// get custom hcatpcha checkbox iframe
+const desiredCheckboxFrame = await page.$("iframe[src*='custom-link-for-iframe-selector']")
+
+await page.hcaptchaclicker(desiredCheckboxFrame) // pass no frame for detect the first on the page
+.then(async (page) => {
+    // submit if passed the challenge
+    await page.click('#submit-my-form')
+    await page.waitForNavigation()
+}).catch((e) => {
+    // ! catch clicker exception
+    console.log(e)
+})
 ```
 
-
-📖 Handler / Solving API Wrapper
+📖 Handler / Solving Tasks API Wrapper
 -
 
-- **Handler it's based on [capsolver-npm](https://github.com/0qwertyy/capsolver-npm) (nodejs api wrapper for capsolver.com api).**
+- **Based on [capsolver-npm](https://github.com/0qwertyy/capsolver-npm) (nodejs api wrapper for capsolver.com api).**
+- **Handler it's attached to any puppeteer page.**
 
-- Retrieve the currently handler:
+- Use the handler with:
 ```javascript
-const handler = CapSolverPlugin.handler()
+await page.capsolver()
 ```
 - Perform any task that `capsolver-npm` brings.
-- Supported captcha tasks listed on capsolver-npm at [*Supported API methods*](https://github.com/0qwertyy/capsolver-npm#-supported-captcha-tasks).
+- Supported captcha tasks listed on capsolver-npm at [*capsolver-npm#Supported API methods*](https://github.com/0qwertyy/puppeteer-extra-plugin-capsolver/blob/master/examples/run-any-task-example.js).
 
 *example: retrieve handler and call for funcaptcha token.*
 ```javascript
-//  
-await CapSolverPlugin.handler()
-  .funcaptchaproxyless(websiteURL, websitePublicKey, funcaptchaApiJSSubdomain)
-  .then((response) => {
-    if(response.error !== 0){ 
-        // FunCaptcha token!
-        const token = response.solution;    
-    }else{
-        console.log('[myapp][task failed]' + JSON.stringify(response.apiResponse))
-    }  
-  });
+await page.capsolver()
+    .funcaptchaproxyless(websiteURL, websitePublicKey, funcaptchaApiJSSubdomain) // see required parametes by https://github.com/0qwertyy/capsolver-npm#-supported-captcha-tasks
+    .then((results) => {
+        if (results.error !== 0) {
+            // createTask solution
+            const token = results.solution
+        } else {
+            console.log(`got an error! ${JSON.stringify(results.apiResponse)}`)
+        }
+    }).catch(e => {
+        console.log(e)
+    })
 ```
 
-
-# 🖱 HCaptcha Clicker (a DOM feature)
-
-![](https://raw.githubusercontent.com/0qwertyy/puppeteer-extra-plugin-capsolver/master/examples/puppeteer.gif)
-
-- **`await CapSolverPlugin.hcaptchaclicker(page)`**  - handle a page including hcaptcha iframe and trigger it, then emulates human clicks. *[example script (how to use).](https://github.com/0qwertyy/puppeteer-extra-plugin-capsolver/blob/master/examples/hcaptchaclicker.js)*
-
-- Will auto-detect if fails the callenge (retry) and double challenges hcaptcha that sometimes appears.
-
-- See how recognize images captcha images through [HCaptcha Image Classification](https://docs.capsolver.com/guide/recognition/HCaptchaClassification.html).
-
-```javascript
-// receives PuppeterPage instance
-await CapSolverPlugin.hcaptchaclicker(page)
-.then(async (page) => {
-    // submit if passed captcha
-    await page.click('#hcaptcha-demo-submit');
-    await page.waitForNavigation();
-}).catch((e) => {
-    // print clicker error
-    console.log(e);
-});
-```
-
+- **Note that `await page.capsolver().runAynTask()` it's also supported in the case of tasks that are not supported by task-bind methods.**
+  ***see: [examples/run-any-task-example.js](https://github.com/)***
 
 📁 Working Examples
 -
