@@ -61,7 +61,7 @@ await page.hcaptchaclicker(desiredCheckboxFrame) // pass no frame for detect the
 await page.capsolver()
 ```
 - Perform any task that `capsolver-npm` brings.
-- Supported captcha tasks listed on capsolver-npm at [*capsolver-npm#Supported API methods*](https://github.com/0qwertyy/puppeteer-extra-plugin-capsolver/blob/master/examples/run-any-task-example.js).
+- Supported captcha tasks listed on capsolver-npm at [*capsolver-npm#Supported API methods*](https://github.com/0qwertyy/capsolver-npm#-supported-captcha-tasks).
 
 *example: retrieve handler and call for funcaptcha token.*
 ```javascript
