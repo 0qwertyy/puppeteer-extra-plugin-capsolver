@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer-extra')
 const { executablePath } = require('puppeteer')
 const CapSolverPlugin = require('../src/index')({
-    apiKey: 'CAI-6AC8DDA7D69277DBB7F3F664C65D056E',
+    apiKey: 'CAI-XXX ...',
     verboseLevel: 1,
     retry: true    // works for .hcaptchaclicker()
 })
