@@ -1,5 +1,5 @@
 # puppeteer-extra-plugin-capsolver
-[![](https://img.shields.io/badge/1.1.1-puppeteer--extra--plugin--capsolver-darkgreen?logo=npm&logoColor=white)](https://www.npmjs.com/package/puppeteer-extra-plugin-capsolver)
+[![](https://img.shields.io/badge/1.1.2-puppeteer--extra--plugin--capsolver-darkgreen?logo=npm&logoColor=white)](https://www.npmjs.com/package/puppeteer-extra-plugin-capsolver)
 [![](https://img.shields.io/badge/documentation-docs.capsolver.com-darkgreen)](https://docs.capsolver.com/guide/getting-started.html)
 
 - **Manage to solve captcha challenges with AI (captcha service based).**
@@ -80,7 +80,7 @@ await page.capsolver()
 ```
 
 - **Note that `await page.capsolver().runAynTask()` it's also supported in the case of tasks that are not supported by task-bind methods.**
-  ***see: [examples/run-any-task-example.js](https://github.com/)***
+  ***see: [examples/run-any-task-example.js](https://github.com/0qwertyy/puppeteer-extra-plugin-capsolver/blob/master/examples/solve-tasks/run-any-task-example.js)***
 
 📁 Working Examples
 -
