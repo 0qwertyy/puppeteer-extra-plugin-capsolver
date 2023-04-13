@@ -79,7 +79,7 @@ await page.capsolver()
     })
 ```
 
-- **Note that `await page.capsolver().runAynTask()` it's also supported in the case of tasks that are not supported by task-bind methods.**
+- **Note that `await page.capsolver().runAnyTask({})` it's also supported in the case of tasks that are not supported by task-bind methods.**
   ***see: [examples/run-any-task-example.js](https://github.com/0qwertyy/puppeteer-extra-plugin-capsolver/blob/master/examples/solve-tasks/run-any-task-example.js)***
 
 📁 Working Examples
