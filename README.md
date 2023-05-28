@@ -84,5 +84,4 @@ await page.capsolver()
 
 📁 Working Examples
 -
-
 figure out at [examples](https://github.com/0qwertyy/puppeteer-extra-plugin-capsolver/blob/master/examples/) directory
