@@ -10,6 +10,7 @@
     "type": "git",
     "url": "https://github.com/0qwertyy/puppeteer-extra-plugin-capsolver.git"
   },
+  "types": "./src/puppeteer-extra-plugin-capsolver.d.ts",
   "keywords": [
     "recaptcha",
     "hcaptcha",
