@@ -1,3 +1,5 @@
+import { PuppeteerExtraPlugin } from "puppeteer-extra-plugin";
+
 export = puppeteer_extra_plugin_capsolver;
 
 declare class puppeteer_extra_plugin_capsolver extends PuppeteerExtraPlugin {
